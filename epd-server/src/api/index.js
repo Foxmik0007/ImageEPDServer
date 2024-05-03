@@ -218,6 +218,7 @@ function resolve3Color(imageDataBW, imageDataRed) {
     let codeRed = horizontal1bitBlackWhite(imageDataRed, settings.screenWidth);
 
     for (let i = 0; i < 56; i++) {
+        repeat += " ";
         repeat += dummy;
     }
     const outputString = `${codeBlack + repeat + codeRed + repeat}`;
@@ -232,6 +233,7 @@ function resolve2Color(imageDataBW) {
     let codeBlack = horizontal1bitBlackWhite(imageDataBW, settings.screenWidth);
     const dummy = "0xff,";
     for (let i = 0; i < 5112; i++) {
+        repeat += " ";
         repeat += dummy;
     }
     const outputString = `${codeBlack + repeat}`;
