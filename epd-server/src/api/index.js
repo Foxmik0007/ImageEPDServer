@@ -6,13 +6,13 @@ const Jimp = require('jimp');
 
   /* API made by Mika Rafaralahy.
   For context :
-    5112 is not a random number
+    5512 is not a random number
     It is called dummy due to the fact that it is just some solution to ensure that the red layer is intact
     The chip read two times : 1 for black and white and 1 for white and red
-    The total of the data sent shouid be around 10112
+    The total of the data sent shouid be around 10512
     First 5000 is black and white layer
     Second 5000 is red and white layer
-    112 is the real dummy one. Those are necessary because the chip do not have exactly 5000 slot per layer, it has 5256 and each image converted using the algorithm generate 5000 units of data, we just complete them using dummy white data
+    512 is the real dummy one. Those are necessary because the chip do not have exactly 5000 slot per layer, it has 5256 and each image converted using the algorithm generate 5000 units of data, we just complete them using dummy white data
     Those does not interfere with the final result.
 */
 
@@ -93,7 +93,7 @@ app.post('/convert/white', (req, res) => {
         console.log("Received data white");
         const dummy = "0xff";
         let repeat = "0xff";
-        for (let i = 0; i < 10111; i++) {
+        for (let i = 0; i < 10511; i++) {
             repeat += ",";
             repeat += dummy;
         }
@@ -111,10 +111,10 @@ app.post('/convert/black', (req, res) => {
         const dummy = "0x00,";
         const dummyRed = "0xff,";
         let repeat = "";
-        for (let i = 0; i < 5156; i++) {
+        for (let i = 0; i < 5256; i++) {
             repeat += dummy;
         }
-        for (let i = 0; i < 5155; i++) {
+        for (let i = 0; i < 5255; i++) {
             repeat += dummyRed;
         }
         repeat += "0xff";
@@ -132,10 +132,10 @@ app.post('/convert/red', (req, res) => {
         const dummy = "0xff,";
         const dummyRed = "0x00,";
         let repeat = "";
-        for (let i = 0; i < 5056; i++) {
+        for (let i = 0; i < 5256; i++) {
             repeat += dummy;
         }
-        for (let i = 0; i < 5155; i++) {
+        for (let i = 0; i < 5255; i++) {
             repeat += dummyRed;
         }
         repeat += "0x00";
@@ -217,12 +217,10 @@ function resolve3Color(imageDataBW, imageDataRed) {
     let codeBlack = horizontal1bitBlackWhite(imageDataBW, settings.screenWidth);
     let codeRed = horizontal1bitBlackWhite(imageDataRed, settings.screenWidth);
 
-    for (let i = 0; i < 56; i++) {
-        repeat += " ";
+    for (let i = 0; i < 256; i++) {
         repeat += dummy;
     }
     const outputString = `${codeBlack + repeat + codeRed + repeat}`;
-    console.log("RESOLVE 3 COLOR =============================================: \n " +outputString);
     return outputString;
     
 }
@@ -232,12 +230,10 @@ function resolve2Color(imageDataBW) {
     let repeat = "";
     let codeBlack = horizontal1bitBlackWhite(imageDataBW, settings.screenWidth);
     const dummy = "0xff,";
-    for (let i = 0; i < 5112; i++) {
-        repeat += " ";
+    for (let i = 0; i < 5512; i++) {
         repeat += dummy;
     }
     const outputString = `${codeBlack + repeat}`;
-    console.log("RESOLVE 2 COLOR =============================================: \n " +outputString);
     return outputString;
 }
 
